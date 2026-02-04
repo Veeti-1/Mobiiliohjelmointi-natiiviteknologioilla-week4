@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,6 +42,14 @@ fun CalendarScreen(viewModel: TaskViewModel, onNavigateHome:()-> Unit){
 
     Column() {
         TopAppBar(
+            actions = {
+                Button(
+
+                    onClick = {
+
+                        viewModel.sortByDueDate()
+                    }) { Text(text = "Sort by dueDate") }
+            },
             title = { Text("calendar") },
             navigationIcon = {
                 IconButton(onClick = onNavigateHome) {
@@ -56,16 +65,25 @@ fun CalendarScreen(viewModel: TaskViewModel, onNavigateHome:()-> Unit){
                 grouped.forEach { (date, tasksOfDay) ->
 
 
-                        item {//width = 2.dp, brush = gradientBrush, shape = CircleShape
-                                Text(text = date, style= TextStyle(textDecoration = TextDecoration.Underline),)
+                        item{
+
+                                Text(
+                                    text = date,
+                                    style = TextStyle(textDecoration = TextDecoration.Underline)
+                                )
 
                         }
                         items(tasksOfDay) { task ->
-                            Card(modifier = Modifier.padding(2.dp).fillMaxWidth()) {
+                            Card(modifier = Modifier
+                                .padding(2.dp)
+                                .fillMaxWidth()) {
 
-                                Column(modifier = Modifier.clickable { viewModel.selectTask(task) }) {
+                                Column(modifier = Modifier
+                                    .clickable { viewModel.selectTask(task) }
+                                    .padding(4.dp)) {
                                     Text(
                                         text = "Title: ${task.title} \n ${task.description}"
+
 
                                     )
                                 }
@@ -74,7 +92,7 @@ fun CalendarScreen(viewModel: TaskViewModel, onNavigateHome:()-> Unit){
 
                         }
                     }
-                }
+            }
 
 
 
